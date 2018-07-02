@@ -1,1 +1,1 @@
-Matthew Shim shimm@oregonstate.edu
+This is my assignment-1 submission! 
