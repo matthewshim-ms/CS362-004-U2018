@@ -128,4 +128,16 @@ int getWinners(int players[MAX_PLAYERS], struct gameState *state);
 /* Set array position of each player who won (remember ties!) to
    1, others to 0 */
 
+
+// BUG - Card methods not prototyped
+void Card_adventurer(int drawnTreasure, int hand[], int z, struct gameState* state, int currentPlayer);
+
+void Card_smithy(int currentPlayer, int handPos, struct gameState* state);
+
+void Card_village(int currentPlayer, int handPos, struct gameState* state);
+
+void Card_steward(int currentPlayer, int handPos, int choice1, int choice2, int choice3, struct gameState *state);
+
+void Card_outpost(int currentPlayer, int handPos, struct gameState* state);
+
 #endif
