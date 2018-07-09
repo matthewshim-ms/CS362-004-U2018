@@ -690,8 +690,9 @@ void Card_village(int handPos, int currentPlayer, struct gameState *state){
   // +1 Card
   drawCard(currentPlayer, state);
 
+  // ** FIX - wront number of actions, changed to 10 instead of 2
   // +2 actions
-  state->numActions = state->numActions + 10;
+  state->numActions = state->numActions + 5;
   
   // discard played card from hand
   discardCard(handPos, currentPlayer, state, 0);
@@ -699,7 +700,8 @@ void Card_village(int handPos, int currentPlayer, struct gameState *state){
 
 void Card_steward(int currentPlayer, int handPos, int choice1, int choice2, int choice3, struct gameState *state){
 
-  if (choice1 == 1)
+  // ** FIX - change choice1 back to 1
+  if (choice1 == 2)
   {
     //+2 cards
     drawCard(currentPlayer, state);

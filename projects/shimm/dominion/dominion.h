@@ -129,7 +129,7 @@ int getWinners(int players[MAX_PLAYERS], struct gameState *state);
    1, others to 0 */
 
 
-// BUG - Card methods not prototyped
+
 void Card_adventurer(int currentPlayer, int temphand[], int z, struct gameState *state);
 
 void Card_smithy(int currentPlayer, int handPos, struct gameState* state);
