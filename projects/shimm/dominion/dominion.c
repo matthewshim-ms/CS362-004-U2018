@@ -648,8 +648,8 @@ void Card_adventurer(int currentPlayer, int temphand[], int z, struct gameState 
     int cardDrawn;
     int drawntreasure = 0;
     
-    // ** FIXED - player should reveal until 3 treasure cards are shown
-    while(drawntreasure < 3){
+    // ** FIX - change back to 2 later
+    while(drawntreasure < 4){
 
       if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
         shuffle(currentPlayer, state);
@@ -676,9 +676,9 @@ void Card_adventurer(int currentPlayer, int temphand[], int z, struct gameState 
 void Card_smithy(int currentPlayer, int handPos, struct gameState *state){
   int i;
 
-  // **FIXED - wrong number of cards
+  // **FIX - wrong number of cards (change back to 2)
   // +3 Cards
-  for(i = 0; i < 2; i++){
+  for(i = 0; i < 5; i++){
     drawCard(currentPlayer, state);
   }
 
