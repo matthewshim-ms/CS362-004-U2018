@@ -130,7 +130,7 @@ int getWinners(int players[MAX_PLAYERS], struct gameState *state);
 
 
 // BUG - Card methods not prototyped
-void Card_adventurer(int drawnTreasure, int hand[], int z, struct gameState* state, int currentPlayer);
+void Card_adventurer(int currentPlayer, int temphand[], int z, struct gameState *state)
 
 void Card_smithy(int currentPlayer, int handPos, struct gameState* state);
 
@@ -138,6 +138,8 @@ void Card_village(int currentPlayer, int handPos, struct gameState* state);
 
 void Card_steward(int currentPlayer, int handPos, int choice1, int choice2, int choice3, struct gameState *state);
 
-void Card_outpost(int currentPlayer, int handPos, struct gameState* state);
+void Card_outpost(int handPos, int currentPlayer, struct gameState* state);
+
+void Card_embargo(int choice1, int handPos, int currentPlayer, struct gameState* state);
 
 #endif
