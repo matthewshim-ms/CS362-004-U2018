@@ -22,7 +22,8 @@ int main()
 {
     printf("Testing ----> isGameOver() function\n");
 
-    struct gameState *state;
+    struct gameState state;
+    struct gameState state_init;
     int num_players = 2;
     int rand_seed = 1000;
 
@@ -39,13 +40,20 @@ int main()
         feast
     }
 
-    int status = initializeGame(num_players, kingdom, rand_seed, state);
-    my_assert(status == 0, "Game initialized properly?");
+    memset(&state, 23, sizeof(struct gameState));
+    initializeGame(num_players, kingdom, rand_seed, &state);
+    
+    state.supplyCount[province] = 0;
+    printf("\n Province cards empty \n");
+    assertTrue(isGameOver(&state),1);
+  
+    state.supplyCount[province] = 1;
+    state.supplyCount[0] = 0;
+    state.supplyCount[1] = 0;
+    state.supplyCount[2] = 0;
 
-    // Test game over now
-    struct gameState newState;
-    printf("TESTING -----> isGameOver()\n");
-
+    printf("\n Supply cards are empty \n");
+    assertTrue(isGameOver(&state), 1);
 
     if(test_failures > 0){
         printf("\n *** WARNING - Test Failures\n");
@@ -53,4 +61,6 @@ int main()
     }else{
         printf(" !!! ALL TESTS PASSED\n\n");
     }
+
+    return 0;
 }

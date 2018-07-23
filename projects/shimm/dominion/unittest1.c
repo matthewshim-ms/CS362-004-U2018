@@ -21,6 +21,8 @@ void assertTrue(int a, int b){
 
 int main()
 {
+    printf("TESTING ----> updateCoins()");
+
     int num_players = 2;
     int rand_seed = 1000;
     struct gameState state;
@@ -50,7 +52,6 @@ int main()
         gold[i] = gold;
     }
 
-    printf("TESTING ----> updateCoins()");
 
     for (handCount = 0; handCount <= 5; handCount +=5) {
 

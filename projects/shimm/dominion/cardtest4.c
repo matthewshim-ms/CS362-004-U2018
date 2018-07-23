@@ -20,7 +20,11 @@ void assertTrue(int a, int b){
 
 int main()
 {
-    struct gameState *state = newGame();
+    printf("TESTING VILLAGE CARD\n");
+
+    struct gameState state_new;
+    struct gameState state_init;
+
     int num_players = 2;
     int rand_seed = 1000;
     int player1 = 0;
@@ -48,10 +52,6 @@ int main()
     int status = initializeGame(num_players, kingdom, rand_seed, state);
     my_assert(status == 0, "Game initialized properly?");
 
-    printf("TESTING VILLAGE CARD\n");
-
-    struct gameState state_new;
-    struct gameState state_init;
 
     memset(&state_new, 23, sizeof(struct, gameState));
     memset(&state_init, 23, sizeof(struct, gameState));
@@ -73,10 +73,8 @@ int main()
     // Ensure other cards are still in valid pile state after card actions have taken effect
     printf("Counting Estate Cards \n");
     assertTrue(state.supplyCount[estate],stateOriginal.supplyCount[estate]);
-
     printf("Counting Province Cards \n");
     assertTrue(state.supplyCount[province],stateOriginal.supplyCount[province]);
-
     printf("Counting Duchy Cards \n");
     assertTrue(state.supplyCount[duchy],stateOriginal.supplyCount[duchy]);
 
