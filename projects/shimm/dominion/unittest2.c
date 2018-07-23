@@ -16,9 +16,14 @@ void assertTrue(int a, int b){
     }
 }
 
+// Testing SupplyCount Function
+
 int main()
 {
-    struct gameState *state = newGame();
+
+    // Testing SupplyCount() works properly
+    printf("TESTING ----> supplyCount()\n");
+    struct gameState *state;
     int num_players = 2;
     int rand_seed = 1000;
 
@@ -35,9 +40,6 @@ int main()
         feast
     }
 
-    int status = initializeGame(num_players, kingdom, rand_seed, state);
-    my_assert(status == 0, "Game initialized properly?");
-
 
     if(test_failures > 0){
         printf("\n *** WARNING - Test Failures\n");
@@ -45,4 +47,6 @@ int main()
     }else{
         printf(" !!! ALL TESTS PASSED\n\n");
     }    
+
+    return 0;
 }

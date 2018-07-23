@@ -17,6 +17,8 @@ void assertTrue(int a, int b){
     }
 }
 
+// TESTING UPDATE COINS
+
 int main()
 {
     int num_players = 2;

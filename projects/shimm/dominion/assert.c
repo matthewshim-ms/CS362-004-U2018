@@ -1,9 +1,12 @@
 #include "assert.h"
 
-void my_assert(int value, char *msg){
-    if (value){
-        printf("TEST PASSED - | %s |\n", msg);
+int test_failures = 0;
+
+void assertTrue(int a, int b){
+    if (a == b){
+        printf("TEST PASSED \n");
     }else{
-        printf("TEST FAILED - | %s |\n", msg);
+        printf("TEST FAILED \n");
+        test_failures++;
     }
 }
