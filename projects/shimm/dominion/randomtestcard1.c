@@ -8,6 +8,9 @@
 #include <stdlib.h>
 #include <assert.h>
 
+// administrative variables
+int iterations = 10000;
+
 // prototype
 void testSmithyCard(int p, struct gameState *post);
 
@@ -16,9 +19,47 @@ int card_effect_fail = 0;
 int discard_card_fail = 0;
 int draw_card_fail = 0;
 int deck_count_fail = 0;
+int total_failures;
 
 int main()
 {
+    printf("*=*=*=*=*=*=*= Random Test - Assignment 4 *=*=*=*=*=*=*=\n");
+    printf("File Input: randomtest1.c\n");
+    printf("Function: smithyCard()\n");
+    printf("========================================================\n");
+
+    int player;
+    struct gameState game;
+    srand(time(NULL));
+
+    for(int i = 0; i < iterations; i++){
+        for(int j = 0; j < sizeof(struct gameState); j++){
+            ((char*)&game)[i] = floor(Random() * 256);
+        }
+
+        player = floor(Random() * MAX_PLAYERS);
+        game.deckCount[player] = floor(Random() * MAX_DECK);
+        game.discardCount[player] = floor(Random() * MAX_DECK);
+        game.handCount[player] = floor(Random() * MAX_HAND);
+        game.playedCardCount = floor(Random() * (MAX_DECK - 1));
+        game.whoseTurn = player;
+
+        testSmithyCard(player, &game);
+    }
+
+    total_failures = card_effect_fail + discard_card_fail + draw_card_fail + deck_count_fail;
+
+    if(total_failures == 0){
+        printf("************** PASSED RANDOM TEST ****************\n");
+    }else{
+        printf("!!!!!! FAILED TESTS: \n");
+        printf("discardCard() failed: %d\n", discard_card_fail);
+        printf("cardEffect() failed: %d\n", card_effect_fail);
+        printf("drawCard() failed: %d\n", draw_card_fail);
+        printf("\n");
+        printf("Hand/Deck count failure: %d\n", deck_count_fail);
+    }
+    printf("=================================================\n"); 
     return 0;
 }
 
@@ -47,7 +88,7 @@ testSmithyCard(int p, struct gameState *post){
     pre_handCount = pre.handCount;
     pre_deckCount = pre.deckCount;
 
-    // 
+    // check if any failures, increment counters accordinglys
 
     if(!(random_effect == 0 && discarded == 0)){
         if(random_effect){

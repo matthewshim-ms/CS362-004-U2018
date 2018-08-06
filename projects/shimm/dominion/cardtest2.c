@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include "rngs.h"
-#include "assert.h"
+// #include "assert.h"
 
 int test_failures = 0;
 
