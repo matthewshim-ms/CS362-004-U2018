@@ -21,14 +21,54 @@ int other_player_fails = 0;
 
 int total_failures;
 
+
 // prototypes
 void testCouncilRoomCard(int p, struct gameState *post);
 
 int main()
 {
-    
+    srand(time(NULL));
 
+    int deck_count, hand_count, discard_count, player; 
 
+    printf("*=*=*=*=*=*=*= Random Test - Assignment 4 *=*=*=*=*=*=*=\n");
+    printf("File Input: randomtestcard2.c\n");
+    printf("Function: council_roomCard()\n");
+    printf("========================================================\n");    
+
+    struct gameState game;
+    int number_Players[] = { 2, 3, 4 };
+
+    for(int i = 0; i < iterations; i++){
+        for(int j = 0; j < sizeof(struct gameState); j++){
+            ((char*)&game)[i] = floor(Random() * 256);
+        }
+    }
+    game.numPlayers = number_Players[rand() % 3];
+    game.numBuys = 1;
+    game.playedCardCount = floor(Random() * (MAX_DECK-1));
+    player = game.numPlayers - 2;
+    deck_count = floor(Random() * MAX_DECK);
+    hand_count = floor(Random() * MAX_HAND);
+    discard_count = floor(Random() * MAX_DECK);
+    game.whoseTurn = player;
+
+    for(int i = 0; i < game.numPlayers; i++){
+        game.deckCount[i] = deck_count;
+        game.deckCount[i] = hand_count;
+        game.discardCount[i] = discard_count;
+    }
+
+    testCouncilRoomCard(player, &game);
+
+    int total_failures = card_effect_fail + discard_card_fail + draw_card_fail + deck_count_fail + card_buy_fail;
+    printf("\n=============== RESULTS ==========\n");
+    printf("Tests Passed: %d\n",iterations - total_failures);
+    printf("Tests Failed: %d\n",total_failures);
+
+    if (total_failures == 0) {
+        printf ("\n======== PASSED RANDOM TEST =========\n");
+    }
     return 0;
 }
 

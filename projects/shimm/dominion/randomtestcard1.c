@@ -24,7 +24,7 @@ int total_failures;
 int main()
 {
     printf("*=*=*=*=*=*=*= Random Test - Assignment 4 *=*=*=*=*=*=*=\n");
-    printf("File Input: randomtest1.c\n");
+    printf("File Input: randomtestcard1.c\n");
     printf("Function: smithyCard()\n");
     printf("========================================================\n");
 
