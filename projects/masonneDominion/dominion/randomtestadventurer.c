@@ -1,168 +1,63 @@
+/**
+Name: Neale Mason
+Date: 7/20/2018
+Email: masonne@oregonstate.edu
+Description: Here I test the adventurer card
+**/
+
+//Includes are from the dominion.c file
 #include "dominion.h"
 #include "dominion_helpers.h"
 #include "rngs.h"
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
-#include <math.h>
-#include <time.h>
 #include <stdio.h>
-
-// Testing variables
-int card_effect_fail = 0;
-int shuffle_fail = 0;
-int draw_card_fail = 0;
-int deck_count_fail = 0;
-int treasure_count_fail = 0;
-int total_fail; 
-
-// method prototype
-void testAdventurerCard(int p, struct gameState *post);
-
-// Administrative variables
-int test_iterations = 10000;
-
-int main()
-{
-    printf("*=*=*=*=*=*=*= Random Test - Assignment 4 *=*=*=*=*=*=*=\n");
-    printf("File Input: randomtestadventurer.c\n");
-    printf("Function: adventurerCard()\n");
-    printf("========================================================\n");
-
-    int treasures[] = { copper, silver, gold };
-    int num_treasures;
-    int player;
-    struct gameState game; 
-
-    int minimum_cards = 3;
-
-    srand(time(NULL));
-
-    for(int i = 0; i < iterations; i++){
-        for(int j = 0; j < sizeof(struct gameState); j++){
-            ((char*)&G)[j] = floor(Random() * 256);
-        }
-    }
-
-    player = floor(Random() * MAX_PLAYERS);
-    game.deckCount[player] = floor(Random() * ((MAX_DECK - minimum_cards) + 1) + minimum_cards);
-    num_treasures = floor(Random() * ((game.deckCount[player - minimum_cards]) + 1) + minimum_cards);
-
-    for(int i = 0; i < num_treasures; i++){
-        game.deck[player][i] = treasures[rand() % 3];
-    }
-    game.discardCount[player] = 0;
-    game.handCount[player] = floor(Random()* ((MAX_HAND - minimum_cards) + 1) + minimum_cards);
-    game.whoseTurn = player;
-
-    testAdventurerCard(player, &game);
-    total_fail = card_effect_fail + draw_card_fail + shuffle_fail + deck_count_fail + treasure_count_fail;
-
-    if(total_fail == 0){
-        printf("************** PASSED RANDOM TEST ****************\n");
-    }else{
-        printf("!!!!!! FAILED TESTS: \n");
-        printf("shuffle() failed: %d\n", shuffle_fail);
-        printf("cardEffect() failed: %d\n", card_effect_fail);
-        printf("drawCard() failed: %d\n", draw_card_fail);
-        printf("\n");
-        printf("Treasure Count failures: %d\n", treasure_count_fail);
-        printf("Deck Count failure: %d\n", deck_count_fail);
-    }
-
-    printf("=================================================\n");
-    return 0;
-}
+#include <math.h>
+#include <stdlib.h>
 
 
-void testAdventurerCard(int p, struct gameState *post){
-    int post_treasureCount = 0;
-    int pre_treasureCount = 0;
-
-    int hand_temp[MAX_HAND];
-    int drawn_treasure = 0;
-
-    struct gameState preState;
-    int cardDrawn;
-    int card;
-    int bonus, z = 0;
-
-    int treasure;
-    int randomEffect;
-    int shuffle; 
-
-    int post_handCount, post_deckCount, post_discardCount, pre_handCount, pre_deckCount, pre_discardCount;
+int failures, tester, numTries;
+//following code borrows heavily from playdom.c for implementation
+int main(){
+ int i=0;
+ numTries=10000;
+   printf ("Testing ADVENTURER: ");
+ 
+ for(i=0; i<numTries; i++){
+ 
+ struct gameState G, H; //using 2 gamestates to keep track of "before card" and "after card"
+  int k[10] = {adventurer, gardens, embargo, village, minion, mine, cutpurse,
+           sea_hag, tribute, smithy};
 
 
-    memcpy(&pre, post, sizeof(struct gameState));
 
-    // card effect function is called with adventurercard
-    randomEffect = cardEffect(adventurer, 0, 0, 0, post, 0, &bonus);
+  
+//int initializeGame(int numPlayers, int kingdomCards[10], int randomSeed, struct gameState *state);
+  initializeGame(i, k, 20, &G);
 
-    if(randomEffect){
-        card_effect_fail++;
-    }
 
-    while(drawn_treasure < 2)
-    {
-        if(pre.deckCount[p] < 1){
-            shuffle = shuffle(p, &pre);
+  int test_Result=1;
+  
 
-            if(shuffle == -1 && pre.deckCount[p] >= 1){
-                shuffle_fail++;
-            }
-        }
+ int choice1=0, choice2=0, choice3=0;
+  H=G;
 
-        treasure = drawCard(p, &pre);
-        if(treasure == -1 && pre.deckCount[p] != 0){
-            draw_card_fail++;
-        }
+  int tester = 0;
+  
+  tester = cardeffect(adventurer, choice1, choice2, choice3, &G, 0, 0);
+  
+if(G.handCount[G.whoseTurn]!=H.handCount[H.whoseTurn]+2){ //tests to see if Adventurer has the player draw 2 more cards If not, fails the test
+    test_Result=0;
+  }
+  if(G.coins != H.coins+2){
+    test_Result=0;
+  }
 
-        cardDrawn = pre.hand[p][pre.handCount[p] -1];
-        if(cardDrawn == copper || cardDrawn == silver || cardDrawn == gold){
-            drawn_treasure++;
-        }else{
-            hand_temp[z] = cardDrawn;
-            pre.handCount[p]--;
-            z++;
-        }
-
-    }
-
-    while(z - 1 >= 0){
-            pre.discard[p][pre.discardCount[p]++] = hand_temp[z - 1];
-            z--;
-        }
-
-    // POST resolution game state treasure count 
-    for(int i = 0; i < post->handCount[p]; i++){
-        card = post->hand[p][i];
-        if(card == copper || card == silver || card == gold){
-            post_treasureCount++;
-        }
-    }
-
-    // PRE resolution game state treasure count
-    for(int i = 0; i < pre.handCount[p]; i++){
-        card = pre.hand[p][i];
-        if(card == copper || card == silver || card == gold){
-            pre_treasureCount++;
-        }
-    }
-
-    if(pre_treasureCount != post_treasureCount){
-        treasure_count_fail++;
-    }
-
-    post_handCount = post->handCount[p];
-    post_deckCount = post->deckCount[p];
-    post_discardCount = post->discardCount[p];
-    pre_handCount = pre.handCount[p];
-    pre_deckCount = pre.deckCount[p];
-    pre_discardCount = pre.discardCount[p];
-
-    if(!(post_handCount == pre_handCount && post_deckCount == pre_deckCount && post_discardCount == pre_discardCount)){
-        deck_count_fail++;
-    }
-
+  if(test_Result==1){
+    printf("PASSED!\n");
+	
+  }
+  else if(test_Result==0 || tester){
+    printf("FAILED!\n");
+	failures++;
+  }
+ }
 }

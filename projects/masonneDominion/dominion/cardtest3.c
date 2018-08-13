@@ -1,72 +1,46 @@
+/**
+Name: Neale Mason
+Date: 7/20/2018
+Email: masonne@oregonstate.edu
+Description: Here I test the Gardens card
+**/
+
+//Includes are from the dominion.c file
 #include "dominion.h"
 #include "dominion_helpers.h"
-#include <string.h>
-#include <stdio.h>
-#include <assert.h>
 #include "rngs.h"
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
 
-int test_failures = 0;
+//following code borrows heavily from playdom.c for implementation
+int main(){
+ struct gameState G; //using 2 gamestates to keep track of "before card" and "after card"
+  int k[10] = {adventurer, gardens, embargo, village, minion, mine, cutpurse,
+           sea_hag, tribute, smithy};
 
-void assertTrue(int a, int b){
-    if (a == b){
-        printf("TEST PASSED \n");
-    }else{
-        printf("TEST FAILED \n");
-        test_failures++;
+  printf ("Testing Gardens: ");
+
+//int initializeGame(int numPlayers, int kingdomCards[10], int randomSeed, struct gameState *state);
+  initializeGame(2, k, 20, &G);
+
+
+
+  int test_Result=1;
+
+
+  int choice1=0, choice2=0, choice3=0;
+
+
+  int tester = cardEffect(gardens,choice1, choice2, choice3, &G,0,0);
+
+    if(tester!=-1){
+        test_Result=0;
     }
-}
-
-// ** Council Room Card test
-
-int main()
-{
-    struct gameState *state = newGame();
-    int num_players = 2;
-    int rand_seed = 1000;
-    int choice1 = 0;
-    int choice2 = 0;
-    int choice3 = 0;
-
-    int kingdom[10] = {
-        adventurer,
-        smithy,
-        gardens,
-        embargo,
-        village,
-        baron,
-        sea_hag,
-        great_hall,
-        mine,
-        feast
+      if(test_Result==1){
+        printf("PASSED!\n");
     }
-
-    int status = initializeGame(num_players, kingdom, rand_seed, state);
-    my_assert(status == 0, "Game initialized properly?");
-
-    state->numBuys = 0;
-    int result = cardEffect(council_room, choice1, choice2, choice3, state, 0, NULL);
-    my_assert(result == 0, "Council Room Card Init test");
-
-    struct gameState state_new;
-    struct gameState state_init;
-
-    memset(&state_new, 23, sizeof(struct, gameState));
-    memset(&state_init, 23, sizeof(struct, gameState));
-    initializeGame(num_players, kingdom, rand_seed, &state_new);
-    memcpy(&state_init, &state_new, sizeof(Struct, gameState));
-
-
-    printf("\nPlayer1 gains a card\n");
-    assertTrue(state.handCount[player1],stateOriginal.handCount[player1]+1);
-    printf("\nPlayer1 draws a card from player1 deck\n");
-    assertTrue(state.deckCount[player1],stateOriginal.deckCount[player1]-1);
-
-    if(test_failures > 0){
-        printf("\n *** WARNING - Test Failures\n");
-        printf("Failure Count: %d\n", test_failures);
-    }else{
-        printf(" !!! ALL TESTS PASSED\n\n");
+    else{
+        printf("FAILED!\n");
     }
-
-    return 0;
 }

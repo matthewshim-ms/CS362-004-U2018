@@ -1,73 +1,43 @@
+/**
+Name: Neale Mason
+Date: 7/20/2018
+Email: masonne@oregonstate.edu
+Description: Here I test the outpost card
+**/
+
+//Includes are from the dominion.c file
 #include "dominion.h"
 #include "dominion_helpers.h"
-#include <string.h>
-#include <stdio.h>
-#include <assert.h>
 #include "rngs.h"
-// #include "assert.h"
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
 
-int test_failures = 0;
+//following code borrows heavily from playdom.c for implementation
+int main(){
+ struct gameState G, H; //using 2 gamestates to keep track of "before card" and "after card"
+  int k[10] = {adventurer, gardens, embargo, village, minion, mine, cutpurse,
+           sea_hag, tribute, smithy};
 
-void assertTrue(int a, int b){
-    if (a == b){
-        printf("TEST PASSED \n");
-    }else{
-        printf("TEST FAILED \n");
-        test_failures++;
-    }
-}
+  printf ("Testing OUTPOST: ");
 
-// ** Smithy Card Tests
+//int initializeGame(int numPlayers, int kingdomCards[10], int randomSeed, struct gameState *state);
+  initializeGame(2, k, 20, &G);
 
-int main()
-{
-    struct gameState *state = newGame();
-    int num_players = 2;
-    int rand_seed = 1000;
-    int choice1 = 0;
-    int choice2 = 0;
-    int choice3 = 0;
+  int test_Result=1;
 
-    int kingdom[10] = {
-        adventurer,
-        smithy,
-        gardens,
-        embargo,
-        village,
-        baron,
-        sea_hag,
-        great_hall,
-        mine,
-        feast
+  int choice1=0, choice2=0, choice3=0;
+  H=G;
+
+  cardEffect(outpost,choice1, choice2, choice3, &G,0,0); //outpost card should increment the outpostPlayed counter, we check that it does
+    if(G.outpostPlayed!=H.outpostPlayed+1){
+        test_Result=0;
     }
 
-    int status = initializeGame(num_players, kingdom, rand_seed, state);
-    my_assert(status == 0, "Game initialized properly?");
-
-
-    for(int i = 0; i < num_players; i++){
-        state->whoseTurn = i;
-        state->handCount[i] = 1;
-        state->hand[i][0] = smithy;
-        int result = cardEffect(smithy, choice1, choice2, choice3, state, 0, NULL);
-        assert(result == 0, "Smithy Card Test");
+    if(test_Result==1){
+        printf("PASSED!\n");
     }
-
-    struct gameState state_new;
-    struct gameState state_init;
-
-    memset(&state_new, 23, sizeof(struct, gameState));
-    memset(&state_init, 23, sizeof(struct, gameState));
-    initializeGame(num_players, kingdom, rand_seed, &state_new);
-    memcpy(&state_init, &state_new, sizeof(Struct, gameState));
-
-
-    if(test_failures > 0){
-        printf("\n *** WARNING - Test Failures\n");
-        printf("Failure Count: %d\n", test_failures);
-    }else{
-        printf(" !!! ALL TESTS PASSED\n\n");
+    else{
+        printf("FAILED!\n");
     }
-
-    return 0;
 }
