@@ -33,6 +33,8 @@ runtests: testDrawCard
 
 myTests: randomtestcard1.out randomtestcard2.out randomtestadventurer.out
 
+randomtests: randomtestcard1.out randomtestcard2.out randomtestadventurer.out
+
 randomtestcard1.out: randomtestcard1.c dominion.o rngs.o
 	echo "randomtestcard1.c:" >> randomtestcard1.out
 	gcc -o randomtestcard1 -g randomtestcard1.c dominion.o rngs.o $(CFLAGS)
@@ -51,17 +53,44 @@ randomtestadventurer.out: randomtestadventurer.c dominion.o rngs.o
 	randomtestadventurer >> randomtestadventurer.out
 	gcov dominion.c >> randomtestadventurer.out
 
-unittests: unittest1.c unittest2.c unittest3.c unittest4.c dominion.o rngs.o
-	gcc -o unittests -g unittest1.c unittest2.c unittest3.c unittest4.c dominion.o rngs.o $(CFLAGS)
+unittest1: unittest1.c dominion.o rngs.o
+	gcc -o unittest1 -g unittest1.c dominion.o rngs.o $(CFLAGS)
 
-cardtests: cardtest1.c cardtest2.c cardtest3.c cardtest4.c dominion.o rngs.o
-	gcc -o cardtests -g cardtest1.c cardtest2.c cardtest3.c cardtest4.c dominion.o rngs.o $(CFLAGS)
+unittest2: unittest2.c dominion.o rngs.o
+	gcc -o unittest2 -g unittest2.c dominion.o rngs.o $(CFLAGS)
 
-unittestresults: unittests cardtests
+unittest3: unittest3.c dominion.o rngs.o
+	gcc -o unittest3 -g unittest3.c dominion.o rngs.o $(CFLAGS)
+
+unittest4: unittest4.c dominion.o rngs.o
+	gcc -o unittest4 -g unittest4.c dominion.o rngs.o $(CFLAGS)
+
+unittests: unittest2.c dominion.o rngs.o
+	gcc -o unittest2 -g unittest2.c dominion.o rngs.o $(CFLAGS)
+
+cardtest1: cardtest1.c dominion.o rngs.o
+	gcc -o cardtest1 -g cardtest1.c dominion.o rngs.o $(CFLAGS)
+
+cardtest2: cardtest2.c dominion.o rngs.o
+	gcc -o cardtest2 -g cardtest2.c dominion.o rngs.o $(CFLAGS)
+
+cardtest3: cardtest3.c dominion.o rngs.o
+	gcc -o cardtest3 -g cardtest3.c dominion.o rngs.o $(CFLAGS)
+
+cardtest4: cardtest4.c dominion.o rngs.o
+	gcc -o cardtest4 -g cardtest4.c dominion.o rngs.o $(CFLAGS)
+
+unittestresults: unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 cardtest3 cardtest4
 	echo "unit tests:" >> unittestresults.out
-	unittests >> unittestresults.out
+	unittest1 >> unittestresults.out
+	unittest2 >> unittestresults.out
+	unittest3 >> unittestresults.out
+	unittest4 >> unittestresults.out
 	echo "card tests:" >> unittestresults.out
-	cardtests >> unittestresults.out
+	cardtest1 >> unittestresults.out
+	cardtest2 >> unittestresults.out
+	cardtest3 >> unittestresults.out
+	cardtest4 >> unittestresults.out
 	gcov dominion.c >> unittestresults.out
 
 player: player.c interface.o
