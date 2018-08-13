@@ -36,6 +36,7 @@ int main (int argc, char** argv) {
   int value1;
   int value2;
   int value3;
+  int value4;
   int choice1 = 0;
   int choice2 = 0;
   int choice3 = 0;
@@ -75,7 +76,8 @@ int main (int argc, char** argv) {
     handPos = rand() % G.handCount[i];    
     value1 = G.numActions + 1;
     value2 = G.deckCount[i] - 1;
-    value3 = G.handCount[i] + 1;
+    value3 = G.handCount[i];
+    value4 = G.discardCount[i] + 1;
     j = cardEffect(great_hall, choice1, choice2, choice3, &G, handPos, &bonus);
     if (j != 0) {
       flag = 1;
@@ -85,8 +87,10 @@ int main (int argc, char** argv) {
     assertTrue(value1, G.numActions, &flag);
     printf("Player %d now has %d cards in deck\n", i+1, G.deckCount[i]);
     assertTrue(value2, G.deckCount[i], &flag);
-    printf("Player %d now has %d cards in hand\n", i+1, G.handCount[i]);
+    printf("Player %d still has %d cards in hand\n", i+1, G.handCount[i]);
     assertTrue(value3, G.handCount[i], &flag);
+    printf("Player %d now has %d cards in discard\n", i+1, G.discardCount[i]);
+    assertTrue(value4, G.discardCount[i], &flag);
   }
 
   if (flag == 0) {

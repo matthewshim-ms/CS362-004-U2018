@@ -761,6 +761,9 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 	temphand[i] = -1;
       }
       //Reset Hand
+
+      //put played card in played card pile
+      discardCard(handPos, currentPlayer, state, 0);
       			
       return 0;
 			
@@ -772,16 +775,22 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 
       if (state->hand[currentPlayer][choice1] < copper || state->hand[currentPlayer][choice1] > gold)
 	{
+    //put played card in played card pile
+    discardCard(handPos, currentPlayer, state, 0);
 	  return -1;
 	}
 		
       if (choice2 > treasure_map || choice2 < curse)
 	{
+    //put played card in played card pile
+    discardCard(handPos, currentPlayer, state, 0);
 	  return -1;
 	}
 
       if ( (getCost(state->hand[currentPlayer][choice1]) + 3) > getCost(choice2) )
 	{
+    //put played card in played card pile
+    discardCard(handPos, currentPlayer, state, 0);
 	  return -1;
 	}
 
@@ -807,6 +816,8 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 
       if ( (getCost(state->hand[currentPlayer][choice1]) + 2) > getCost(choice2) )
 	{
+    //put played card in played card pile
+    discardCard(handPos, currentPlayer, state, 0);
 	  return -1;
 	}
 
@@ -898,7 +909,8 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 	}
       }
 	    
-      
+      //put played card in played card pile
+      discardCard(handPos, currentPlayer, state, 0);
       return 0;
 		
     case great_hall:
@@ -1042,7 +1054,8 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 	  state->numActions = state->numActions + 2;
 	}
       }
-	    
+	    //put played card in played card pile
+      discardCard(handPos, currentPlayer, state, 0);
       return 0;
 		
     case ambassador:
@@ -1050,11 +1063,15 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 
       if (choice2 > 2 || choice2 < 0)
 	{
+    //put played card in played card pile
+    discardCard(handPos, currentPlayer, state, 0);
 	  return -1;				
 	}
 
       if (choice1 == handPos)
 	{
+    //put played card in played card pile
+    discardCard(handPos, currentPlayer, state, 0);
 	  return -1;
 	}
 
@@ -1067,6 +1084,8 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 	}
       if (j < choice2)
 	{
+    //put played card in played card pile
+    discardCard(handPos, currentPlayer, state, 0);
 	  return -1;				
 	}
 
@@ -1145,6 +1164,8 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       //see if selected pile is in play
       if ( state->supplyCount[choice1] == -1 )
 	{
+    //put played card in played card pile
+    discardCard(handPos, currentPlayer, state, 0);
 	  return -1;
 	}
 			
@@ -1187,6 +1208,8 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 	  state->deck[i][state->deckCount[i]--] = curse;//Top card now a curse
 	}
       }
+      //put played card in played card pile
+      discardCard(handPos, currentPlayer, state, 0);
       return 0;
 		
     case treasure_map:
@@ -1211,7 +1234,10 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 	    {
 	      gainCard(gold, state, 1, currentPlayer);
 	    }
-				
+    
+    //put played card in played card pile
+    discardCard(handPos, currentPlayer, state, 0);
+
 	  //return success
 	  return 1;
 	}
@@ -1258,6 +1284,7 @@ int discardCard(int handPos, int currentPlayer, struct gameState *state, int tra
       state->handCount[currentPlayer]--;
     }
 	
+  state->discardCount[currentPlayer]++;
   return 0;
 }
 

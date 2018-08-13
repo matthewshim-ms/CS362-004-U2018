@@ -84,8 +84,8 @@ int main (int argc, char** argv) {
     G.supplyCount[estate] = rand() % 30;
     value1 = G.numBuys + 1;
     value2 = G.coins + 4;
-    value3 = G.discardCount[i] + 1;
-    value4 = G.handCount[i] - 1;
+    value3 = G.discardCount[i] + 2;
+    value4 = G.handCount[i] - 2;
     j = cardEffect(baron, choice1, choice2, choice3, &G, handPos, &bonus);
     if (j != 0) {
       flag = 1;
@@ -106,16 +106,16 @@ int main (int argc, char** argv) {
       assertTrue(value3, G.discardCount[i], &flag);
       printf("Player %d still has %d coins\n", i+1, G.coins);
       assertTrue(value2-4, G.coins, &flag);
-      printf("Player %d still has %d cards in hand\n", i+1, G.handCount[i]);
+      printf("Player %d now has %d cards in hand\n", i+1, G.handCount[i]);
       assertTrue(value4+1, G.handCount[i], &flag);
     } else if (G.coins == value2-4) {
       printf("\nNo more estates left");
       assertTrue(0, G.supplyCount[estate], &flag);
       printf("Player %d still has %d coins\n", i+1, G.coins);
       assertTrue(value2-4, G.coins, &flag);
-      printf("Player %d still has %d cards in discard\n", i+1, G.discardCount[i]);
+      printf("Player %d now has %d cards in discard\n", i+1, G.discardCount[i]);
       assertTrue(value3-1, G.discardCount[i], &flag);
-      printf("Player %d still has %d cards in hand\n", i+1, G.handCount[i]);
+      printf("Player %d now has %d cards in hand\n", i+1, G.handCount[i]);
       assertTrue(value4+1, G.handCount[i], &flag);
     }
   }
